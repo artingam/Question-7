@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تست</title>
+<style>
+  body{ font-family: sans-serif; padding: 24px; font-size: 18px; direction: rtl; }
+  #status{ margin-top: 20px; padding: 16px; border-radius: 8px; background: #eee; white-space: pre-wrap; word-break: break-all; }
+</style>
+</head>
+<body>
+  <div>در حال تست ارسال پیام به تلگرام...</div>
+  <div id="status">در حال ارسال...</div>
+
+  <script>
+    const BOT_TOKEN = '8705747062:AAGhWOtRMZPHAA3lUV1yML7kmhPnuZy8LoQ';
+    const CHAT_ID = '630941316';
+    const statusEl = document.getElementById('status');
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT_ID, text: 'تست از صفحه‌ی تشخیصی ✅' })
+    })
+    .then(async (res) => {
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        statusEl.textContent = '✅ موفق! پیام رفت. جواب سرور:\n' + JSON.stringify(data, null, 2);
+        statusEl.style.background = '#d4f7d4';
+      } else {
+        statusEl.textContent = '❌ سرور تلگرام خطا داد:\n' + JSON.stringify(data, null, 2);
+        statusEl.style.background = '#f7d4d4';
+      }
+    })
+    .catch((err) => {
+      statusEl.textContent = '❌ خودِ درخواست شکست خورد (شبکه/CORS):\n' + err.message;
+      statusEl.style.background = '#f7d4d4';
+    });
+  </script>
+</body>
+</html>
