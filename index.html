@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>یه دعوت‌نامه‌ی کوچیک</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep: #fff0f5;
+    --bg-panel: #ffffff;
+    --gold: #ff8fae;
+    --blush: #ff5c8a;
+    --text-light: #4a2c3a;
+    --muted: #b98aa0;
+  }
+  *{ box-sizing: border-box; }
+  html,body{
+    margin:0; padding:0; height:100%;
+    font-family: 'Vazirmatn', sans-serif;
+    background: radial-gradient(circle at 20% 15%, #ffffff 0%, var(--bg-deep) 55%, #ffe1ec 100%);
+    color: var(--text-light);
+    overflow: hidden;
+  }
+  #sky{
+    position: fixed; inset:0; z-index:0; pointer-events:none;
+  }
+  .star{
+    position:absolute; background: var(--gold); border-radius:50%;
+    opacity:.5; animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:.15; } 50%{ opacity:.8; }
+  }
+  .stage{
+    position:relative; z-index:1;
+    min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: 24px; gap:16px;
+  }
+  .footer-credit{
+    font-size:12.5px; color: var(--muted); opacity:.8;
+  }
+  .card{
+    width:100%; max-width:440px;
+    background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,245,249,.95));
+    border: 1px solid rgba(255,143,174,.25);
+    border-radius: 28px;
+    padding: 40px 28px 32px;
+    text-align:center;
+    box-shadow: 0 30px 60px -20px rgba(255,92,138,.25);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+    animation: rise .6s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(24px) scale(.98); }
+    to{ opacity:1; transform:none; }
+  }
+  .eyebrow{
+    font-size:13px; letter-spacing:.12em; color: var(--gold);
+    margin-bottom:10px; font-weight:500;
+  }
+  h1{
+    font-size: 26px; font-weight:900; line-height:1.5; margin: 0 0 8px;
+  }
+  .sub{
+    color: var(--muted); font-size:14px; margin-bottom: 30px; line-height:1.8;
+  }
+  .btn-row{
+    position:relative;
+    display:flex; gap:46px; justify-content:center;
+    min-height: 62px;
+    align-items:flex-start;
+  }
+  button{
+    font-family:inherit; border:none; cursor:pointer; border-radius:16px;
+    font-size:16px; font-weight:700; padding:14px 28px;
+    transition: transform .15s ease, box-shadow .2s ease;
+  }
+  .yes{
+    background: linear-gradient(135deg, var(--gold), var(--blush));
+    color:#fff; box-shadow: 0 10px 24px -8px rgba(255,92,138,.5);
+    transition: transform .45s cubic-bezier(.22,.9,.32,1);
+  }
+  .yes:hover{ transform: translateY(-2px) scale(1.03); }
+  .no{
+    background: #ffe4ee; color: var(--text-light);
+    position: relative; left:0; top:0;
+    transition: transform .35s cubic-bezier(.22,.9,.32,1), opacity .3s ease, font-size .3s ease, padding .3s ease;
+    will-change: transform;
+  }
+  #noWrap{ position:relative; }
+  .hint{
+    margin-top: 22px; font-size:12.5px; color: var(--muted); min-height:18px;
+  }
+  /* step 2 */
+  .field{ text-align:right; margin-bottom:16px; }
+  label{ display:block; font-size:13px; color: var(--muted); margin-bottom:8px; }
+  input[type=date], input[type=time]{
+    width:100%; font-family:inherit; font-size:16px; color: var(--text-light);
+    background: #fff5f9; border:1px solid rgba(255,143,174,.35);
+    border-radius:14px; padding:12px 14px; outline:none;
+  }
+  input[type=date]::-webkit-calendar-picker-indicator,
+  input[type=time]::-webkit-calendar-picker-indicator{ filter: invert(.4) sepia(1) saturate(4) hue-rotate(300deg); cursor:pointer; }
+  .date-row{ display:flex; gap:8px; }
+  .date-row select{
+    flex:1; min-width:0; font-family:inherit; font-size:15px; color: var(--text-light);
+    background: #fff5f9; border:1px solid rgba(255,143,174,.35);
+    border-radius:14px; padding:12px 8px; outline:none; text-align-last:center;
+  }
+  .primary{
+    width:100%; margin-top:8px;
+    background: linear-gradient(135deg, var(--blush), #c9457c);
+    color:#fff; box-shadow: 0 10px 24px -8px rgba(242,120,159,.45);
+  }
+  .primary:disabled{ opacity:.4; cursor:not-allowed; }
+  .primary:hover:not(:disabled){ transform: translateY(-2px); }
+  /* step 3 : food */
+  .foods{
+    display:grid; grid-template-columns: 1fr 1fr; gap:12px; margin-top:8px;
+  }
+  .food{
+    background: #fff5f9; border:1px solid rgba(255,143,174,.2);
+    border-radius:16px; padding:16px 10px; color: var(--text-light);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    font-size:14px; font-weight:500;
+    transition: background .25s ease, border-color .25s ease, box-shadow .25s ease, transform .2s ease;
+    cursor:pointer;
+  }
+  .food:hover{ transform: translateY(-2px); }
+  .food .emoji{ font-size:26px; }
+  .food.selected{
+    border-color: var(--gold); background: rgba(255,143,174,.15);
+    box-shadow: 0 0 0 1px var(--gold) inset;
+  }
+  /* step 4 : summary */
+  .summary-box{
+    background: #fff5f9; border:1px solid rgba(255,143,174,.35);
+    border-radius:18px; padding:20px; margin: 18px 0 24px; text-align:right;
+  }
+  .summary-row{ display:flex; justify-content:space-between; padding:8px 0; font-size:14.5px; border-bottom:1px dashed rgba(74,44,58,.12); }
+  .summary-row:last-child{ border-bottom:none; }
+  .summary-row b{ color: var(--gold); font-weight:700; }
+  .heart{ font-size:38px; margin-bottom:6px; display:block; }
+  .step{ display:none; }
+  .step.active{
+    display:block;
+    animation: stepIn .45s cubic-bezier(.22,.9,.32,1);
+  }
+  @keyframes stepIn{
+    from{ opacity:0; transform: translateY(14px); }
+    to{ opacity:1; transform:none; }
+  }
+  @media (max-width: 380px){
+    .card{ padding:32px 20px 26px; }
+    h1{ font-size:22px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="sky"></div>
+
+<div class="stage">
+  <div class="card">
+
+    <!-- STEP 1 -->
+    <div class="step active" id="step1">
+      <div class="eyebrow">یه سوال کوچیک</div>
+      <h1>میای بریم بیرون؟ 🌙</h1>
+      <div class="sub">فقط یه جواب درسته... امتحان کن ببین می‌تونی «نه» رو بزنی 😏</div>
+      <div id="noWrap">
+        <div class="btn-row">
+          <button class="yes" id="yesBtn">بلـه!</button>
+          <button class="no" id="noBtn">نه</button>
+        </div>
+      </div>
+      <div class="hint" id="hint">&nbsp;</div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step2">
+      <div class="eyebrow">عالیه! 🎉</div>
+      <h1>خب، کی بریم؟</h1>
+      <div class="sub">یه تاریخ و ساعت که راحتی رو انتخاب کن</div>
+      <div class="field">
+        <label>تاریخ (شمسی)</label>
+        <div class="date-row">
+          <select id="daySel"><option value="" disabled selected>روز</option></select>
+          <select id="monthSel"><option value="" disabled selected>ماه</option></select>
+          <select id="yearSel"><option value="" disabled selected>سال</option></select>
+        </div>
+      </div>
+      <div class="field">
+        <label>ساعت</label>
+        <input type="time" id="timeInput">
+      </div>
+      <button class="primary" id="toStep3" disabled>ثبت کن، برو مرحله بعد</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step3">
+      <div class="eyebrow">یه چیز مهم‌تر</div>
+      <h1>چی بخوریم؟ 😋</h1>
+      <div class="sub">یکی رو انتخاب کن</div>
+      <div class="foods">
+        <div class="food" data-food="پیتزا"><span class="emoji">🍕</span>پیتزا</div>
+        <div class="food" data-food="قهوه"><span class="emoji">☕</span>قهوه</div>
+        <div class="food" data-food="کباب"><span class="emoji">🍢</span>کباب</div>
+        <div class="food" data-food="برگر"><span class="emoji">🍔</span>برگر</div>
+      </div>
+      <button class="primary" id="toStep4" disabled style="margin-top:18px;">تمومه، قرارمون رو ببین</button>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" id="step4">
+      <span class="heart">💛</span>
+      <h1>قرارمون شد!</h1>
+      <div class="summary-box">
+        <div class="summary-row"><span>تاریخ</span><b id="sumDate">-</b></div>
+        <div class="summary-row"><span>ساعت</span><b id="sumTime">-</b></div>
+        <div class="summary-row"><span>چی بخوریم</span><b id="sumFood">-</b></div>
+      </div>
+      <div class="sub">منتظرتم 🌙✨</div>
+    </div>
+
+  </div>
+  <div class="footer-credit">ساخته شده با ❤️ توسط artin</div>
+</div>
+
+<script>
+  // starry background
+  const sky = document.getElementById('sky');
+  for(let i=0;i<50;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random()*2 + 1;
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*3)+'s';
+    sky.appendChild(s);
+  }
+
+  // Telegram notifications
+  const BOT_TOKEN = '8705747062:AAGhWOtRMZPHAA3lUV1yML7kmhPnuZy8LoQ';
+  const CHAT_ID = '630941316';
+  function sendTelegram(text){
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    const payload = JSON.stringify({ chat_id: CHAT_ID, text });
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payload], { type: 'application/json' });
+      const ok = navigator.sendBeacon(url, blob);
+      if (ok) return;
+    }
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
+      keepalive: true
+    }).catch(()=>{ /* silent fail */ });
+  }
+  sendTelegram('یکی صفحه‌ی دعوت رو باز کرد و داره جواب میده 👀');
+
+  // STEP 1: dodging "no" button
+  const noBtn = document.getElementById('noBtn');
+  const yesBtn = document.getElementById('yesBtn');
+  const noWrap = document.getElementById('noWrap');
+  const hint = document.getElementById('hint');
+  let noClicks = 0;
+  window.noClicks = 0; // exposed for the telegram message later
+  const shrinkStages = [0.78, 0.55, 0.32];
+  const hints = [
+    'اوه، نه؟ 🥺',
+    'یکم فکر کن...',
+    'انگار سرنوشت نمی‌خواد',
+    'خب دیگه، فقط یه راه مونده...'
+  ];
+
+  const yesBaseRect = yesBtn.getBoundingClientRect();
+  const noBaseRect = noBtn.getBoundingClientRect();
+
+  function growYes(){
+    const card = document.querySelector('.card');
+    const cardRect = card.getBoundingClientRect();
+    const pad = 14;
+    const gap = 34;
+    const scale = Math.min(1 + noClicks*0.18, 1.5);
+    const w = yesBaseRect.width, h = yesBaseRect.height;
+    const baseCenterX = yesBaseRect.left + w/2;
+    const noCenterX = noBaseRect.left + noBaseRect.width/2;
+    const cardCenterX = cardRect.left + cardRect.width/2;
+    const ratio = Math.min(noClicks / shrinkStages.length, 1) * 0.85;
+    let translateX = (cardCenterX - baseCenterX) * ratio;
+    const translateY = 0; // stay on its own row, never drift into the text above/below
+    const halfW = (w*scale)/2;
+
+    // never let it cross toward the "no" button's side
+    const dir = baseCenterX < noCenterX ? 1 : -1;
+    let targetCenterX = baseCenterX + translateX;
+    if(dir === 1){
+      targetCenterX = Math.min(targetCenterX, noCenterX - gap - halfW);
+    } else {
+      targetCenterX = Math.max(targetCenterX, noCenterX + gap + halfW);
+    }
+    translateX = targetCenterX - baseCenterX;
+
+    const minTX = (cardRect.left + pad + halfW) - baseCenterX;
+    const maxTX = (cardRect.right - pad - halfW) - baseCenterX;
+    translateX = Math.max(minTX, Math.min(translateX, maxTX));
+    yesBtn.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
+
+  function handleNoClick(e){
+    e.preventDefault();
+    noClicks++;
+    window.noClicks = noClicks;
+    growYes();
+    if(noClicks <= shrinkStages.length){
+      noBtn.style.transform = `scale(${shrinkStages[noClicks-1]})`;
+      hint.textContent = hints[Math.min(noClicks-1, hints.length-1)];
+    }
+    if(noClicks >= shrinkStages.length){
+      setTimeout(()=>{
+        noBtn.style.opacity = '0';
+        noBtn.style.pointerEvents = 'none';
+        hint.textContent = 'خب پس... فقط بله مونده 😉';
+      }, 220);
+    }
+  }
+  noBtn.addEventListener('click', handleNoClick);
+
+  function goTo(id){
+    document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  yesBtn.addEventListener('click', ()=> goTo('step2'));
+
+  // STEP 2: Jalali date & time
+  const daySel = document.getElementById('daySel');
+  const monthSel = document.getElementById('monthSel');
+  const yearSel = document.getElementById('yearSel');
+  const timeInput = document.getElementById('timeInput');
+  const toStep3 = document.getElementById('toStep3');
+
+  const jMonths = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+  jMonths.forEach((m,i)=>{
+    const o = document.createElement('option');
+    o.value = i+1; o.textContent = m;
+    monthSel.appendChild(o);
+  });
+
+  // rough current Jalali year (good enough for populating nearby years)
+  const now = new Date();
+  const nowruzGuess = new Date(now.getFullYear(), 2, 20);
+  const jYearNow = now >= nowruzGuess ? now.getFullYear() - 621 : now.getFullYear() - 622;
+  for(let y = jYearNow; y <= jYearNow + 2; y++){
+    const o = document.createElement('option');
+    o.value = y; o.textContent = y;
+    yearSel.appendChild(o);
+  }
+
+  function daysInJalaliMonth(month){
+    if(month <= 6) return 31;
+    if(month <= 11) return 30;
+    return 29; // اسفند، محافظه‌کارانه
+  }
+
+  function fillDays(){
+    const month = parseInt(monthSel.value) || 1;
+    const prevVal = daySel.value;
+    daySel.innerHTML = '<option value="" disabled selected>روز</option>';
+    for(let d=1; d<=daysInJalaliMonth(month); d++){
+      const o = document.createElement('option');
+      o.value = d; o.textContent = d;
+      daySel.appendChild(o);
+    }
+    if(prevVal && parseInt(prevVal) <= daysInJalaliMonth(month)) daySel.value = prevVal;
+  }
+  fillDays();
+  monthSel.addEventListener('change', fillDays);
+
+  function toPersianDigits(str){
+    const fa = ['۰','۱','۲','۳','۴','۵','۶','۷','۸','۹'];
+    return String(str).replace(/[0-9]/g, d => fa[d]);
+  }
+
+  function checkStep2(){
+    toStep3.disabled = !(daySel.value && monthSel.value && yearSel.value && timeInput.value);
+  }
+  [daySel, monthSel, yearSel, timeInput].forEach(el => el.addEventListener('input', checkStep2));
+  [daySel, monthSel, yearSel].forEach(el => el.addEventListener('change', checkStep2));
+  toStep3.addEventListener('click', ()=> goTo('step3'));
+
+  // STEP 3: food
+  let chosenFood = null;
+  const toStep4 = document.getElementById('toStep4');
+  document.querySelectorAll('.food').forEach(f=>{
+    f.addEventListener('click', ()=>{
+      document.querySelectorAll('.food').forEach(x=>x.classList.remove('selected'));
+      f.classList.add('selected');
+      chosenFood = f.dataset.food;
+      toStep4.disabled = false;
+    });
+  });
+
+  toStep4.addEventListener('click', ()=>{
+    const dayNum = daySel.value;
+    const monthName = jMonths[parseInt(monthSel.value)-1];
+    const yearNum = yearSel.value;
+    const dateStr = `${toPersianDigits(dayNum)} ${monthName} ${toPersianDigits(yearNum)}`;
+    document.getElementById('sumDate').textContent = dateStr;
+    document.getElementById('sumTime').textContent = timeInput.value;
+    document.getElementById('sumFood').textContent = chosenFood;
+    goTo('step4');
+
+    const msg = `جواب دعوت اومد 💌
+تاریخ: ${dateStr}
+ساعت: ${timeInput.value}
+غذا: ${chosenFood}
+روی «نه» کلیک کرد: ${noClicks > 0 ? 'بله' : 'خیر'}
+تعداد کلیک روی «نه»: ${noClicks}
+بله میام! 🌙💛`;
+
+    sendTelegram(msg);
+  });</script>
+
+</body>
+</html>
